@@ -39,7 +39,7 @@ class Game {
   _checkFloor() {
     this.bg.floor.forEach(o => {
       if (o.collide(this.witch)){
-        this.witch.y = o.y
+        this.witch.y0 = o.y
         if (this.witch.jumping) { 
           this.witch.jump()
         }
