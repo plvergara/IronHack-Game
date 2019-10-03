@@ -23,7 +23,6 @@ class Background {
 
   _addFloor() {
     this.y = Math.sin(this.x * this.frequency) * this.amplitude + this.amplitude * 4
-    console.log(this.y)
     this.floor.push(new Floor(this.ctx, this.y))
     this.x++
   }

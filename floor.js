@@ -4,7 +4,7 @@ class Floor {
     this.x = 0
     // this.x0 = 0
     this.y = y
-    this.w = 20
+    this.w = 1
     this.cw = ctx.canvas.width
     this.ch = ctx.canvas.height
     this.vx = 1

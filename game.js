@@ -3,6 +3,9 @@ class Game {
     this.ctx = ctx  
     this.bg = new Background(this.ctx)    
     this.witch = new Witch(this.ctx,"grey")
+    this.vy = -50
+
+    // this._setListeners()
   }
 
   run() {    
@@ -35,7 +38,36 @@ class Game {
 
   _checkFloor() {
     this.bg.floor.forEach(o => {
-      if (o.collide(this.witch)) this.witch.y = o.y
-    })   
+      if (o.collide(this.witch)){
+        this.witch.y = o.y
+        if (this.witch.jumping) { 
+          this.witch.jump()
+        }
+      }
+    })  
   }
+
+  // _setListeners() {
+  //   document.onkeydown = (e) => {
+  //     if (e.keyCode === UP){        
+  //       this.jump = true
+  //     } 
+  //     // else  if (e.keyCode === RIGHT) {
+  //     //   this.vx = 5
+  //     // } else if (e.keyCode === LEFT) {
+  //     //   this.vx = -5
+  //     // } 
+  //   }
+
+  //   document.onkeyup = (e) => {
+  //     if (e.keyCode === UP){
+  //       this.jump = false
+  //     } 
+  //     // else if (e.keyCode === RIGHT) {
+  //     //   this.vx = 0
+  //     // } else if (e.keyCode === LEFT) {
+  //     //   this.vx = 0
+  //     // }
+  //   }
+  // }
 }
