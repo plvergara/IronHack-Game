@@ -3,6 +3,8 @@ class Game {
     this.ctx = ctx  
     this.bg = new Background(this.ctx)    
     this.witch = new Witch(this.ctx,"grey")
+    this.bats = []
+    this.tick = 0
 
     // this._setListeners()
   }
@@ -11,6 +13,7 @@ class Game {
     this.intervalId = setInterval(() => {
       this._checkFloor()
       this._clear()
+      this._addBats()
       this._draw()
       this._move()    
     }, FPS)
@@ -24,6 +27,7 @@ class Game {
   _draw() {
     this.bg.draw()
     this.witch.draw()
+    this.bats.forEach(b => b.draw()) 
   }
 
   _move() {
@@ -31,8 +35,18 @@ class Game {
     //   if (e.keyCode === RIGHT) {
         this.bg.move()
         this.witch.move()
+        this.bats.forEach(b => b.move()) 
     //   }
     // }
+  }
+
+  _addBats() {
+    this.tick = Math.random() * 10000
+    console.log(this.tick)
+    if (this.tick >= 9900) {
+      this.bats.push(new Bat(this.ctx))
+    }
+
   }
 
   _checkFloor() {
