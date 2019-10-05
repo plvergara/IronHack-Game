@@ -35,7 +35,7 @@ class Game {
     //   if (e.keyCode === RIGHT) {
         this.bg.move()
         this.witch.move()
-        this.bats.forEach(b => b.move()) 
+        this.bats.forEach(b => b.move(this.witch)) 
     //   }
     // }
   }

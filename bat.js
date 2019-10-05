@@ -8,6 +8,8 @@ class Bat {
     this.r = 10
     this.vx = 0
     this.vy = 0
+    this.dy = 0
+    this.dx = 0
   }
 
   draw() {
@@ -17,9 +19,14 @@ class Bat {
     this.ctx.closePath()
   }
 
-  move() {
-    this.x += this.vx
-    this.y += this.vy
+  move(witch) {
+    this.dx = this.x - witch.x
+    this.dy = this.y - witch.y    
+    this.angle = Math.atan2(this.dy, this.dx)
+    this.vy = Math.sin (this.angle)
+    this.vx = Math.cos (this.angle)
+    this.x -= this.vx
+    this.y -= this.vy
   }
 
   collide(el){
