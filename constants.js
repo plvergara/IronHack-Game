@@ -2,4 +2,5 @@ UP = 38
 RIGHT = 39
 LEFT = 37
 SPACE = 32
+CTRL = 17
 FPS = 1000 / 60

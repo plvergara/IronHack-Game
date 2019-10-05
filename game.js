@@ -3,7 +3,6 @@ class Game {
     this.ctx = ctx  
     this.bg = new Background(this.ctx)    
     this.witch = new Witch(this.ctx,"grey")
-    this.vy = -50
 
     // this._setListeners()
   }
