@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script type="text/javascript" src="script.js">
 
@@ -13,16 +14,63 @@
 </head>
 
 <body>
-    <button id="start-button">StartGame</button>
-    <canvas id="my-canvas" width="700" height="550"></canvas>
+  <div class="main">
+    <div class="container">
+      <div id="intro">
+        <h1>Super Cauldron</h1>
+        <button id="start-button">Start Game</button>
+      </div>
+      <div class="invisible" id="game">
+        <canvas id="my-canvas" width="1140" height="600"></canvas>
+        <div class="info">
+          <div class="lives">
+              <div class=heart>
+                  <img class="red" src="./img/hearts/0.png">
+                  <img class="invisible grey" src="./img/hearts/2.png">
+              </div>
+              <div class=heart>
+                  <img class="red" src="./img/hearts/0.png">
+                  <img class="invisible grey" src="./img/hearts/2.png">
+              </div>
+              <div class=heart>
+                  <img class="red" src="./img/hearts/0.png">
+                  <img class="invisible grey" src="./img/hearts/2.png">
+              </div>
+              <div class=heart>
+                  <img class="red" src="./img/hearts/0.png">
+                  <img class="invisible grey" src="./img/hearts/2.png">
+              </div>
+              <div class=heart>
+                  <img class="red" src="./img/hearts/0.png">
+                  <img class="invisible grey" src="./img/hearts/2.png">
+              </div>
+          </div>
+          <div class="score">
+            <p>SCORE: <span class="points"></span></p>
+          </div>
+        </div>
+      </div>
+      <div class="invisible" id="game-over">
+        <h1>GAME OVER</h1>
+        <div class="score">
+            <h3>YOUR SCORE: <span class="final-points"></span></h3>
+          </div>
+      </div>
+    </div>    
+  </div>   
+  
 </body>
 <script src="constants.js"></script>
 <script src="floor.js"></script>
+<script src="img.js"></script>
+<script src="rectangle.js"></script>
 <script src="background.js"></script>
 <script src="bullet.js"></script>
 <script src="witch.js"></script>
+<script src="broom.js"></script>
 <script src="bat.js"></script>
 <script src="game.js"></script>
 <script src="script.js"></script>
+
 
 </html>

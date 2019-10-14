@@ -4,8 +4,11 @@ window.onload = function() {
   
   const game = new Game(ctx)
 
-  document.getElementById("start-button").onclick = function() {
-    startGame()
+  document.getElementById("start-button").onclick = function() {    
+    document.getElementById("intro").classList.toggle("invisible")
+    document.getElementById("game").classList.toggle("invisible")
+    startGame()   
+    document.getElementById("start-button").disabled = true
   }
 
   function startGame() {
