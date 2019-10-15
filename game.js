@@ -6,8 +6,10 @@ class Game {
     this.bats = []
     this.tick = 0
     this.tickBroom = 0
+    this.tickCauldron = 0
     this.lives = 5
-    this.broom = null   
+    this.broom = null
+    this.cauldron = null   
     this.score = 0
     this.scoreFormat = ('0000'+this.score).slice(-4);
     }
@@ -17,6 +19,7 @@ class Game {
       this._clear()
       this._addBats()      
       if (this.broom) this._checkCollisonBroom()
+      if (this.cauldron) this._checkCollisonCauldron()
       this._checkCollisionsBullet()
       this._checkLives()
       this._checkFloor()
@@ -26,7 +29,7 @@ class Game {
       this._printScore()    
     }, FPS)
   }
-  
+
   reset() {
     this.bats = []
     this.score = 0
@@ -42,6 +45,7 @@ class Game {
     this.bg.draw()
     this.witch.draw()
     if (this.broom) this.broom.draw()
+    if (this.cauldron) this.cauldron.draw()
     this.bats.forEach(b => b.draw()) 
   }
 
@@ -50,6 +54,10 @@ class Game {
     if (this.witch.x >= this.ctx.canvas.width/3){
       this.bg.move()
       this.tickBroom++
+      this.tickCauldron++
+      if (this.cauldron){
+         this.cauldron.move()
+      }
       if (this.broom){
         this.broom.move()        
       }
@@ -85,11 +93,27 @@ class Game {
         }
       })
     }
+
+    if (this.cauldron) {
+      this.bg.floor.forEach(o => {
+        if (o.collideY(this.cauldron)){
+          this.cauldron.y = o.y
+        }
+      })
+    }
     
     if (!this.witch.jumping && !this.broom && this.tickBroom >= 900) {
       this.broom = new Broom(this.ctx)
       this.tickBroom = 0
-    }    
+    }
+    
+    if (this.tickCauldron >= 100) {
+      this.cauldron = new Cauldron(this.ctx)
+    }
+
+    if (this.cauldron && this.cauldron.x <= 0) {
+      this._gameOver()      
+    }
 
     if (this.broom && this.broom.x <= 0) {
       this.broom = null      
@@ -129,6 +153,13 @@ class Game {
     }
   }
 
+  _checkCollisonCauldron() {
+    const col = this.cauldron.collideWitch(this.witch)    
+    if (col) {
+      this._win()   
+    }
+  }
+
   _checkLives() {
     if (this.lives <= 0) {
       this._gameOver()
@@ -145,6 +176,15 @@ class Game {
     clearInterval(this.intervalId)
     document.getElementById("game").classList.toggle("invisible")
     document.getElementById("game-over").classList.toggle("invisible")
+    this.scoreFormat = ('0000'+this.score).slice(-4);    
+    document.querySelector(".final-points").innerHTML = this.scoreFormat    
+  }
+
+  _win() {
+    clearInterval(this.intervalId)
+    document.getElementById("game").classList.toggle("invisible")
+    document.getElementById("game-over").classList.toggle("invisible")
+    document.querySelector("#game-over h1").innerHTML = "You WON!"
     this.scoreFormat = ('0000'+this.score).slice(-4);    
     document.querySelector(".final-points").innerHTML = this.scoreFormat    
   }

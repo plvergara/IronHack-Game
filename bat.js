@@ -2,7 +2,7 @@ class Bat {
   constructor (ctx){
     this.ctx = ctx
     this.x = Math.floor(Math.random() * this.ctx.canvas.width)
-    this.y = Math.floor(Math.random() * this.ctx.canvas.height)
+    this.y = 0
     this.r = 10
     this.w = 40
     this.h = 30   

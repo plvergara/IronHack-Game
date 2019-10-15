@@ -83,11 +83,11 @@ class Witch {
     document.addEventListener("keydown", (e) => {
       if (e.keyCode === UP){
         this.run = true
-        this.ay = - 0.55
+        this.ay = - 0.51
       } else  if (e.keyCode === RIGHT) {
         this.run = true
         this.img.src = "./img/witch.png"
-        this.vx = 5
+        this.vx = 3
         this.d = 1
         if (this.jumping) {
           this.img.src = "./img/witch_fly.png"
@@ -96,7 +96,7 @@ class Witch {
         this.run = true
         this.img.src = "./img/witch_left.png"
         this.d = -1
-        this.vx = -5
+        this.vx = -3
         if (this.jumping) {
           this.img.src = "./img/witch_fly_left.png"
         }       
@@ -121,7 +121,7 @@ class Witch {
   }
 
   jump(){
-    if (this.jumping) {
+    if (this.jumping) {      
       this.tickFly++
       this.vy += this.ay 
       this.y += this.vy
