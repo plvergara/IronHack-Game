@@ -16,6 +16,7 @@ class Witch {
     this.bullets = []
     this.tick = 0
     this.run = false
+    this.runRight = false
     this.tickFly = 0
 
     this.img = new Image()
@@ -86,6 +87,7 @@ class Witch {
         this.ay = - 0.51
       } else  if (e.keyCode === RIGHT) {
         this.run = true
+        this.runRight = true
         this.img.src = "./img/witch.png"
         this.vx = 3
         this.d = 1
@@ -111,6 +113,7 @@ class Witch {
         this.ay = 0        
       } else if (e.keyCode === RIGHT) {
         this.run = false
+        this.runRight = false
         this.img.frameIndex = 0
         this.vx = 0
       } else if (e.keyCode === LEFT) {

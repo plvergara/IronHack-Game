@@ -7,19 +7,27 @@ class Game {
     this.tick = 0
     this.tickBroom = 0
     this.tickCauldron = 0
+    this.tickHeart = 0
     this.lives = 5
     this.broom = null
-    this.cauldron = null   
+    this.cauldron = null
+    this.heart = null  
     this.score = 0
     this.scoreFormat = ('0000'+this.score).slice(-4);
+    this.audio = new Audio("./music.mp3")
+    this.audio.loop = true;
+    this.gameOverAudio = new Audio('./gameover.mp3')
+    this.finish = 9000
     }
 
-  run() {    
+  run() { 
+    this.audio.play()   
     this.intervalId = setInterval(() => {      
       this._clear()
       this._addBats()      
       if (this.broom) this._checkCollisonBroom()
       if (this.cauldron) this._checkCollisonCauldron()
+      if (this.heart) this._checkCollisionHeart()
       this._checkCollisionsBullet()
       this._checkLives()
       this._checkFloor()
@@ -28,12 +36,6 @@ class Game {
       this._checkCollisionWitch()
       this._printScore()    
     }, FPS)
-  }
-
-  reset() {
-    this.bats = []
-    this.score = 0
-    clearInterval(this.intervalId)
   }
 
   _clear() {
@@ -46,21 +48,34 @@ class Game {
     this.witch.draw()
     if (this.broom) this.broom.draw()
     if (this.cauldron) this.cauldron.draw()
+    if (this.heart) this.heart.draw()
     this.bats.forEach(b => b.draw()) 
   }
 
   _move() {
         
     if (this.witch.x >= this.ctx.canvas.width/3){
+      this.witch.runRight ? this.bg.vx = -1 : this.bg.vx = 0
       this.bg.move()
       this.tickBroom++
       this.tickCauldron++
-      if (this.cauldron){
-         this.cauldron.move()
+      this.tickHeart++
+
+      if (this.cauldron && this.witch.runRight){
+        this.cauldron.vx = VXFLOOR
+        this.cauldron.move()
       }
-      if (this.broom){
-        this.broom.move()        
+      if (this.broom && this.witch.runRight){
+        this.broom.vx = VXFLOOR
+        this.broom.move()
       }
+      if (this.heart && this.witch.runRight){
+        this.heart.vx = VXFLOOR
+        this.heart.move()
+      }        
+      if (this.broom && !this.witch.runRight) this.broom.vx = 0
+      if (this.cauldron && !this.witch.runRight) this.cauldron.vx = 0
+      if (this.heart && !this.witch.runRight) this.heart.vx = 0
     }      
       this.witch.move()      
       this.bats.forEach(b => b.move(this.witch))
@@ -68,7 +83,7 @@ class Game {
 
   _addBats() {
     this.tick = Math.random() * 10000
-    if (this.tick >= 9900 && this.bats.length < 4) {
+    if (this.tick >= 9900 && this.bats.length < 3) {
       this.bats.push(new Bat(this.ctx))
     }
 
@@ -103,12 +118,16 @@ class Game {
     }
     
     if (!this.witch.jumping && !this.broom && this.tickBroom >= 900) {
-      this.broom = new Broom(this.ctx)
+      this.broom = new Broom(this.ctx)      
       this.tickBroom = 0
     }
-    
-    if (this.tickCauldron >= 100) {
+    if (this.tickHeart >= 1200 && !this.heart) {
+      this.heart = new Heart(this.ctx)
+      this.tickHeart -= 900
+    }
+    if (this.tickCauldron >= this.finish && !this.cauldron) {
       this.cauldron = new Cauldron(this.ctx)
+      this.tickCauldron = 0
     }
 
     if (this.cauldron && this.cauldron.x <= 0) {
@@ -117,6 +136,9 @@ class Game {
 
     if (this.broom && this.broom.x <= 0) {
       this.broom = null      
+    }
+    if (this.heart && this.heart.x <= 0) {
+      this.heart = null      
     }
   }
 
@@ -160,11 +182,27 @@ class Game {
     }
   }
 
+  _checkCollisionHeart() {
+    const col = this.heart.collideWitch(this.witch)    
+    if (col) {
+      this.heart = null
+      if (this.lives < 5) { 
+        this.lives++
+        let heartsEmpty = document.querySelectorAll(".empty-heart")
+        let heartEmpty = heartsEmpty[heartsEmpty.length - 1]
+        heartEmpty.querySelector(".lives .red.invisible").classList.toggle("invisible")
+        heartEmpty.querySelector(".lives .grey").classList.toggle("invisible")
+        heartEmpty.classList.toggle("heart")
+        heartEmpty.classList.toggle("empty-heart")
+      }
+     this.score += 50  
+    }
+  }
+
   _checkLives() {
     if (this.lives <= 0) {
       this._gameOver()
     }
-
   }
 
   _printScore() {
@@ -173,6 +211,8 @@ class Game {
   }
 
   _gameOver() {
+    this.audio.pause()
+    this.gameOverAudio.play()
     clearInterval(this.intervalId)
     document.getElementById("game").classList.toggle("invisible")
     document.getElementById("game-over").classList.toggle("invisible")
@@ -181,6 +221,8 @@ class Game {
   }
 
   _win() {
+    this.audio.pause()
+    this.gameOverAudio.play()
     clearInterval(this.intervalId)
     document.getElementById("game").classList.toggle("invisible")
     document.getElementById("game-over").classList.toggle("invisible")

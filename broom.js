@@ -11,7 +11,6 @@ class Broom {
     this.img.frames = 2
     this.img.frameIndex = 0
     this.tick = 0
-    this._setListeners()
   }
   
   draw() {
@@ -48,19 +47,5 @@ class Broom {
     if (this.img.frameIndex >= this.img.frames) {
       this.img.frameIndex = 0
     }
-  }
-
-  _setListeners() {
-    document.addEventListener("keydown", (e) => {
-      if (e.keyCode === RIGHT) {
-        this.vx = VXFLOOR
-      }
-    })
-
-    document.addEventListener("keyup", (e) => {
-      if (e.keyCode === RIGHT) {
-        this.vx = 0
-      }
-    })
   }
 }

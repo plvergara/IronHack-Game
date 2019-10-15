@@ -19,7 +19,6 @@ class Background {
       this.floor.push(fl)
     }
     this.tickR = 0
-    this._setListeners()
   }
 
   clearFloor() {
@@ -64,19 +63,5 @@ class Background {
     this.tick++
             
     this.floor.forEach(fl => fl.move(this.vx))    
-  }
-
-  _setListeners() {
-    document.addEventListener("keydown", (e) => {
-      if (e.keyCode === RIGHT) {
-        this.vx = -1
-      }
-    })
-
-    document.addEventListener("keyup", (e) => {
-      if (e.keyCode === RIGHT) {
-        this.vx = 0
-      }
-    })
   }
 }
